@@ -2,82 +2,79 @@ import { useState, useEffect } from 'react'
 import axios from "axios"
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
-//import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
 //import { useNavigate } from 'react-router-dom'
-//import Typography from '@mui/material/Typography'
 
-/*interface searchInput {
-    input: string,
-} */
-
-    //osäker på hur jag ska typa några av dessa
+// Unsure of which ones can be null sometimes and which ones that can have other types than null other times (like string)
 interface TvShow {
- //   averageRuntime: number,
- //   dvdCountry: null,
- //   ended: string,
- //   externals: {},
- //   genres: [],
+    averageRuntime: number,
+    dvdCountry: null,
+    ended: string,
+    externals: {tvrage: null, thetvdb: number, imdb: string},
+    genres: [],
     id: number,
-    image: { medium: string } //in some cases its {}
- //   language: string,
+    image: { medium: string, original: string } 
+    language: string,
     name: string,
- //   network: {},
- //   officialSite: string,
- //   premiered: string,
- //   rating: {},
- //   runtime: number,
- //   schedule: {},
- //   status: string,
- //   summary: string,
- //   type: string,
- //   updated: number,
- //   url: string,
- //   webChannel: null,
- //   weight: number,
- //   _links: {},
+    network: {},
+    officialSite: string,
+    premiered: string,
+    rating: {average: null},
+    runtime: number,
+    schedule: {time: string, days: []},
+    status: string,
+    summary: string,
+    type: string,
+    updated: number,
+    url: string,
+    webChannel: {id: number, name: string, country: {name: string, code: string, timezone: string}, officialSite: null}
+    weight: number,
+    _links: {previousepisode: {href: string, name: string}, self: {href: string} }
 } 
 
-// varje objekt i returen från api:et innehåller ett show objekt, med all data om varje tv show
+// Each object in the response from the api have a show object with all the data of each tv show.
 interface SearchResult {
     show: TvShow;
 }
 
+// Each object in the response from the api have a score (number). Use when adding another page to view more info about one tv show, and add the score.
+interface Score {
+    score: number
+}
 
 function Search() {
     const [searchTerm, setSearchTerm] = useState("")
     const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
    
+    // Use when adding a new page that I'm redirected to when clicking on a card. 
+    // const navigate = useNavigate();
     const handleClickTvShow = (id: number) => {
         console.log(id)
+     // navigate('/tvshow/ + id)
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => { 
         const searchInput = e.target.value;
-        console.log('first searchTerm:', searchTerm)
         setSearchTerm(searchInput)
-        console.log('second:', searchTerm)
 
-        // Om söktermen är tom, rensa resultaten i listan
         if (searchInput === '') {
-            setSearchResults([]);  // Rensar sökresultaten
+            setSearchResults([]);
         }
       }
-    // Varje gång searchTerm ändras, triggar useEffecten en ny API-förfrågan till TVMaze APIet
-    //och lägger till söktermen som en del av URLen (?q=${searchTerm}).
+
     useEffect(() => {
-        if (searchTerm !== '') // bara göra en förfrågan om söktermen inte är tom
+        if (searchTerm !== '')
         axios
-            .get(`https://api.tvmaze.com/search/shows?q=${searchTerm}`) // searchTerm läggs till i URLen
+            .get(`https://api.tvmaze.com/search/shows?q=${searchTerm}`)
             .then((response) => {
                 console.log(response.data)
-                setSearchResults(response.data) //spara resultaten
+                setSearchResults(response.data)
             })
             .catch((err) => {
                 console.log(err.message)
             })
-    }, [searchTerm]) // // useEffect reagerar på förändringar i searchTerm
+    }, [searchTerm])
 
     return (
         <>
@@ -87,14 +84,12 @@ function Search() {
                 className="Search-field"
                 type="text"
                 value={searchTerm}
-                onChange={handleInputChange} //uppdaterar söktermen när man skriver i fältet
+                onChange={handleInputChange}
                 placeholder='Search for TV shows'
                 >
                 </input>
             </div>
         </div>
-         {/* Om searchResults innehåller något (är större än 0), renderas varje Card för varje show. Om listan är tom visas istället en Loader-komponent
-         använder map() funktionen för att iterera över varje element i searchResults. Varje objekt i searchResults innehåller ett show-objekt. Genom att använda { show } som en parameter i map() extraheras direkt show-objektet från varje element. index används för att ge varje renderad komponent en unik key med key={index} för att kunna rendera listan */}
             <div className="Card-container">
                 {searchResults.length > 0 ? searchResults.map(({ show }: SearchResult, index: number) =>
                 <Card sx={{ maxWidth: 225 }} key={index} className="Tv-show-card">
@@ -114,7 +109,7 @@ function Search() {
                 </Card>
                 
                 )
-                : <div>{/*tom div istället för en loader eller tex en "No results" text */}</div>
+                : <div></div>
                 } 
             </div>
     
