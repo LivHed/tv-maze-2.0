@@ -14,7 +14,7 @@ interface TvShow {
     externals: {tvrage: null, thetvdb: number, imdb: string},
     genres: [],
     id: number,
-    image: { medium: string, original: string } 
+    image: { medium: string, original: string }, 
     language: string,
     name: string,
     network: {},
