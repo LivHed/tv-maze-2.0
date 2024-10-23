@@ -12,7 +12,7 @@ interface TvShow {
     dvdCountry: null,
     ended: string,
     externals: {tvrage: null, thetvdb: number, imdb: string},
-    genres: [],
+    genres: string[],
     id: number,
     image: { medium: string, original: string }, 
     language: string,
@@ -64,6 +64,7 @@ function Search() {
       }
 
     useEffect(() => {
+        const debounceTimer = setTimeout(() => {
         if (searchTerm !== '')
         axios
             .get(`https://api.tvmaze.com/search/shows?q=${searchTerm}`)
@@ -74,6 +75,8 @@ function Search() {
             .catch((err) => {
                 console.log(err.message)
             })
+        }, 500)
+        return () => clearTimeout(debounceTimer)
     }, [searchTerm])
 
     return (
