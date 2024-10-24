@@ -4,31 +4,31 @@ import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
-//import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 // Unsure of which ones can be null sometimes and which ones that can have other types than null other times (like string)
 interface TvShow {
     averageRuntime: number,
-    dvdCountry: null,
-    ended: string,
+    dvdCountry: string | null,
+    ended: string | null,
     externals: {tvrage: null, thetvdb: number, imdb: string},
     genres: string[],
     id: number,
-    image: { medium: string, original: string }, 
+    image: { medium: string, original: string } | null, 
     language: string,
     name: string,
-    network: {},
-    officialSite: string,
+    network: {} | null,
+    officialSite: string | null,
     premiered: string,
     rating: {average: null},
-    runtime: number,
+    runtime: number | null,
     schedule: {time: string, days: []},
     status: string,
     summary: string,
     type: string,
     updated: number,
     url: string,
-    webChannel: {id: number, name: string, country: {name: string, code: string, timezone: string}, officialSite: null}
+    webChannel: {id: number, name: string, country: {name: string, code: string, timezone: string}, officialSite: null} | null,
     weight: number,
     _links: {previousepisode: {href: string, name: string}, self: {href: string} }
 } 
@@ -48,10 +48,10 @@ function Search() {
     const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
    
     // Use when adding a new page that I'm redirected to when clicking on a card. 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const handleClickTvShow = (id: number) => {
         console.log(id)
-     // navigate('/tvshow/ + id)
+        navigate(`/tvshow/${id}`)
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => { 
@@ -64,7 +64,7 @@ function Search() {
       }
 
     useEffect(() => {
-        const debounceTimer = setTimeout(() => {
+        const debounceTimer = setTimeout(() => { // debouncing with setTimeout waits 500 ms before the api call is made
         if (searchTerm !== '')
         axios
             .get(`https://api.tvmaze.com/search/shows?q=${searchTerm}`)
@@ -75,8 +75,8 @@ function Search() {
             .catch((err) => {
                 console.log(err.message)
             })
-        }, 500)
-        return () => clearTimeout(debounceTimer)
+        }, 500) // the API call will be made 500 ms after the user stops typing
+        return () => clearTimeout(debounceTimer) //returns a function that clears the timeout if the searchTerm changes before the timeout is executed. its run before the next useEffect call, or when the component is deleted. It clears the timer (stops the delayed code from running if the user continues to type quickly or changes pages).
     }, [searchTerm])
 
     return (
