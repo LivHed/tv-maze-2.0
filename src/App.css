@@ -43,6 +43,19 @@
   margin: 30px;
 } 
 
-.Tv-show-name {
-  color: black;
+.Tv-show-info {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content:space-between;
+  margin: 40px;
+}
+
+.Go-back-button {
+  color: white;
+  background-color: #0dbcae; 
+  font-size: 20px;
+  border-radius: 5px;
+  padding: 5px;
 }
