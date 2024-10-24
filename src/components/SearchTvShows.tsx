@@ -34,7 +34,7 @@ export interface TvShow {
 } 
 
 // Each object in the response from the api have a show object with all the data of each tv show.
-interface SearchResult {
+export interface SearchResult {
     show: TvShow;
 }
 
@@ -45,10 +45,9 @@ interface Score {
 
 function Search() {
     const [searchTerm, setSearchTerm] = useState("")
-    const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+    const [searchResults, setSearchResults] = useState<SearchResult[]>([])
    
-    // Use when adding a new page that I'm redirected to when clicking on a card. 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
     const handleClickTvShow = (id: number) => {
         console.log(id)
         navigate(`/tvshow/${id}`)
@@ -75,8 +74,8 @@ function Search() {
             .catch((err) => {
                 console.log(err.message)
             })
-        }, 500) // the API call will be made 500 ms after the user stops typing
-        return () => clearTimeout(debounceTimer) //returns a function that clears the timeout if the searchTerm changes before the timeout is executed. its run before the next useEffect call, or when the component is deleted. It clears the timer (stops the delayed code from running if the user continues to type quickly or changes pages).
+        }, 500)
+        return () => clearTimeout(debounceTimer)
     }, [searchTerm])
 
     return (
@@ -102,8 +101,7 @@ function Search() {
                     title={show.name}
                     />
                 <CardActions>
-                    <Button 
-                    className='Tv-show-name' 
+                    <Button
                     onClick={() => handleClickTvShow(show.id)} 
                     size="small">
                     {show.name}
