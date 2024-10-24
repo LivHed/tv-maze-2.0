@@ -7,7 +7,7 @@ import Button from '@mui/material/Button'
 import { useNavigate } from 'react-router-dom'
 
 // Unsure of which ones can be null sometimes and which ones that can have other types than null other times (like string)
-interface TvShow {
+export interface TvShow {
     averageRuntime: number,
     dvdCountry: string | null,
     ended: string | null,
