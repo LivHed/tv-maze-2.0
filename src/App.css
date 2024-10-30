@@ -37,10 +37,12 @@
   justify-content: center;
   flex-wrap: wrap;
   margin: 60px;
+  gap: 20px;
 }
 
 .Tv-show-card {
-  margin: 30px;
+  margin: 15px;
+  box-sizing: border-box;
 } 
 
 .Tv-show-info {
@@ -58,4 +60,10 @@
   font-size: 20px;
   border-radius: 5px;
   padding: 5px;
+}
+
+.list-items {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
