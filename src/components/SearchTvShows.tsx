@@ -96,17 +96,19 @@ function Search() {
                 {searchResults.length > 0 ? searchResults.map(({ show }: SearchResult, index: number) =>
                 <Card sx={{ maxWidth: 225 }} key={index} className="Tv-show-card">
                     <CardMedia
+                    component="img"
                     sx={{ height: 265, minWidth: 195 }}
                     image={show.image  ? show.image.medium : 'default_image_url'}
                     title={show.name}
+                    alt="Tv show image"
                     />
-                <CardActions>
-                    <Button
-                    onClick={() => handleClickTvShow(show.id)} 
-                    size="small">
-                    {show.name}
-                    </Button>
-                </CardActions>
+                    <CardActions>
+                        <Button
+                        onClick={() => handleClickTvShow(show.id)} 
+                        size="small">
+                        {show.name}
+                        </Button>
+                    </CardActions>
                 </Card>
                 
                 )
