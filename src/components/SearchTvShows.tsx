@@ -4,6 +4,7 @@ import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
 import { useNavigate } from 'react-router-dom'
 
 // Unsure of which ones can be null sometimes and which ones that can have other types than null other times (like string)
@@ -78,6 +79,8 @@ function Search() {
         return () => clearTimeout(debounceTimer)
     }, [searchTerm])
 
+    // todo - check why some of the images content disappears underneath the top of the image space inside of the cards, but doesn't when you view it in the info page about the show (is it because of the change from div to ul, li elements?)
+    // todo - add a default image url
     return (
         <>
         <div className="container">
@@ -94,23 +97,51 @@ function Search() {
         </div>
             <div className="Card-container">
                 {searchResults.length > 0 ? searchResults.map(({ show }: SearchResult, index: number) =>
-                <Card sx={{ maxWidth: 225 }} key={index} className="Tv-show-card">
-                    <CardMedia
-                    component="img"
-                    sx={{ height: 265, minWidth: 195 }}
-                    image={show.image  ? show.image.medium : 'default_image_url'}
-                    title={show.name}
-                    alt="Tv show image"
-                    />
-                    <CardActions>
-                        <Button
-                        onClick={() => handleClickTvShow(show.id)} 
-                        size="small">
-                        {show.name}
-                        </Button>
-                    </CardActions>
-                </Card>
-                
+                <ul className="list-items" key={index}>
+                    <li>
+                        <Card className="Tv-show-card"
+                            sx={{ 
+                                width: 235, 
+                                height: 360,
+                                display: 'flex', 
+                                flexDirection: 'column', 
+                                justifyContent: 'space-between' 
+                            }}>
+                            <CardMedia
+                                component="img"
+                                sx={{ height: 300, width: '100%' }}
+                                image={show.image  ? show.image.medium : 'default_image_url'}
+                                title={show.name}
+                                alt="Tv show image"/>
+                            <CardActions
+                                sx={{ 
+                                    height: 60, 
+                                    padding: '8px', 
+                                    textAlign: 'center', 
+                                    overflow: 'hidden'
+                                }}>
+                                <Box
+                                    sx={{
+                                        display: 'block',
+                                        whiteSpace: "normal",
+                                        lineHeight: 1.2,
+                                        textAlign: 'center',
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis"
+                                    }}>
+                                    <Button
+                                    onClick={() => handleClickTvShow(show.id)} 
+                                    size="small"
+                                    fullWidth
+                                    sx={{color: '#000000', fontWeight: '500'}}
+                                    >
+                                    {show.name}
+                                    </Button>
+                                </Box>
+                            </CardActions>
+                        </Card>
+                    </li>
+                </ul>
                 )
                 : <div></div>
                 } 
