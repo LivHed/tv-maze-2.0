@@ -79,22 +79,19 @@ function Search() {
         return () => clearTimeout(debounceTimer)
     }, [searchTerm])
 
-    // todo - check why some of the images content disappears underneath the top of the image space inside of the cards, but doesn't when you view it in the info page about the show (is it because of the change from div to ul, li elements?)
     // todo - add a default image url
     return (
         <>
-        <div className="container">
-            <div className="Search-bar"> 
+        <search className="Search-container">
                 <input
                 className="Search-field"
-                type="text"
+                type="search"
                 value={searchTerm}
                 onChange={handleInputChange}
                 placeholder='Search for TV shows'
                 >
                 </input>
-            </div>
-        </div>
+        </search>
             <div className="Card-container">
                 {searchResults.length > 0 ? searchResults.map(({ show }: SearchResult, index: number) =>
                 <ul className="list-items" key={index}>
