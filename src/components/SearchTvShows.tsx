@@ -102,20 +102,20 @@ function Search() {
                         <Card className="Tv-show-card"
                             sx={{ 
                                 width: 235, 
-                                height: 360,
+                                height: 385,
                                 display: 'flex', 
                                 flexDirection: 'column', 
                                 justifyContent: 'space-between' 
                             }}>
                             <CardMedia
                                 component="img"
-                                sx={{ height: 300, width: '100%' }}
+                                sx={{ height: '100%', width: '100%', objectFit: 'contain' }}
                                 image={show.image  ? show.image.medium : 'default_image_url'}
                                 title={show.name}
                                 alt="Tv show image"/>
                             <CardActions
                                 sx={{ 
-                                    height: 60, 
+                                    height: 55, 
                                     padding: '8px', 
                                     textAlign: 'center', 
                                     overflow: 'hidden'
